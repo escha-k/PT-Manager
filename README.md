@@ -1,7 +1,8 @@
 # PT-Manager
-오프라인 PT 및 개인 운동 데이터를 효율적으로 관리하고, 주간/월간 운동 통계를 제공하는 웹 기반 서비스입니다.
-트레이너와 회원 간의 운동 스케줄, 피드백, 운동량 추적, 결제 정보, 프로필 등을 통합적으로 관리할 수 있습니다.
+오프라인 PT 및 개인 운동 데이터를 효율적으로 관리하고, 주간/월간 운동 통계를 제공하는 웹 기반 서비스입니다.  
+트레이너와 회원 간의 운동 스케줄, 피드백, 운동 통계, 프로필 등을 통합적으로 관리할 수 있습니다.
 
+<br>
 
 ## 프로젝트 기능 및 설계
 
@@ -44,16 +45,20 @@
 - 회원의 출석률, 총 운동 중량, 운동량 변화 등의 통계를 주간/월간 단위로 제공한다.
 - 회원이 입력한 신체 프로필의 변화 추이를 제공한다.
 
+<br>
 
-## erd
+## ERD
 ![ERD](/docs/assets/erd.png)
 
+<br>
 
 ## API
 
+<br>
 
 ## Trouble Shooting
 
+<br>
 
 ## Tech Stack
 |구성 요소|	기술|
@@ -62,4 +67,4 @@
 |Database|MySQL, H2 (test)|
 |Cache|Redis|
 |Auth|JWT 기반 인증 및 권한 관리|
-|Push 알림|Firebase Cloud Messaging (FCM) 예정|
+|Push 알림|Firebase Cloud Messaging (FCM)|
