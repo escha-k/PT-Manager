@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class WorkoutLogCreateRequest {
 
-  LocalDate date;
-  String exerciseList;
+  private LocalDate date;
+  private String exerciseList;
 }

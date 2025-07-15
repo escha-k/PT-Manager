@@ -11,13 +11,13 @@ import lombok.Data;
 @Builder
 public class WorkoutScheduleDto {
 
-  Long scheduleId;
-  LocalDate date;
-  WorkoutType type;
-  String exercisePlan;
-  String memo;
-  LocalDateTime createdAt;
-  LocalDateTime updatedAt;
+  private Long scheduleId;
+  private LocalDate date;
+  private WorkoutType type;
+  private String exercisePlan;
+  private String memo;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 
   public static WorkoutScheduleDto fromEntity(WorkoutSchedule workoutSchedule) {
     return WorkoutScheduleDto.builder()
