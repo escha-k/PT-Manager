@@ -1,8 +1,9 @@
 package com.project.ptmanager.domain.workout;
 
 import com.project.ptmanager.domain.member.Member;
+import com.project.ptmanager.domain.workout.model.Workout;
 import com.project.ptmanager.enums.WorkoutType;
-import jakarta.persistence.Column;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -11,11 +12,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Getter
@@ -32,8 +35,8 @@ public class WorkoutSchedule {
   private LocalDate date;
   private WorkoutType type;
 
-  @Column(columnDefinition = "json")
-  private String exercisePlan; // 운동 플랜 - json 문자열로 저장
+  @Type(JsonType.class)
+  private List<Workout> exercisePlan; // 운동 플랜 - json 문자열로 저장
 
   private String memo;
 
