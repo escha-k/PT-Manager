@@ -1,7 +1,7 @@
 package com.project.ptmanager.service;
 
-import static com.project.utils.DateUtils.endOfMonth;
-import static com.project.utils.DateUtils.startOfMonth;
+import static com.project.ptmanager.utils.DateUtils.endOfMonth;
+import static com.project.ptmanager.utils.DateUtils.startOfMonth;
 
 import com.project.ptmanager.domain.workout.WorkoutSchedule;
 import com.project.ptmanager.dto.WorkoutScheduleDto;
