@@ -1,5 +1,6 @@
 package com.project.ptmanager.controller;
 
+import com.project.ptmanager.domain.workout.model.Workout;
 import com.project.ptmanager.dto.WorkoutLogCreateRequest;
 import com.project.ptmanager.dto.WorkoutLogDto;
 import com.project.ptmanager.dto.WorkoutScheduleDto;
@@ -83,7 +84,7 @@ public class MemberWorkoutController {
   ) {
 
     LocalDate date = request.getDate();
-    String exerciseList = request.getExerciseList();
+    List<Workout> exerciseList = request.getExerciseList();
 
     Long memberId = 0L; // TODO: 인증에서 멤버 키 가져오기 구현
     Long trainerId = null; // TODO: 담당 트레이너가 있다면 불러오기

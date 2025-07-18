@@ -5,6 +5,7 @@ import static com.project.utils.DateUtils.startOfMonth;
 
 import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.workout.WorkoutLog;
+import com.project.ptmanager.domain.workout.model.Workout;
 import com.project.ptmanager.dto.WorkoutLogDto;
 import com.project.ptmanager.enums.WorkoutType;
 import com.project.ptmanager.exception.AuthenticationException;
@@ -50,7 +51,7 @@ public class MemberWorkoutLogService {
     return WorkoutLogDto.fromEntity(workoutLog);
   }
 
-  public Long createWorkoutLog(LocalDate date, String exerciseList, Long memberId, Long trainerId) {
+  public Long createWorkoutLog(LocalDate date, List<Workout> exerciseList, Long memberId, Long trainerId) {
 
     Member member = memberRepository.findById(memberId)
         .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
