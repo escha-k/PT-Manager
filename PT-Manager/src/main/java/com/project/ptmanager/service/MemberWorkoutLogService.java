@@ -7,12 +7,14 @@ import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.workout.WorkoutLog;
 import com.project.ptmanager.dto.WorkoutLogDto;
 import com.project.ptmanager.enums.WorkoutType;
+import com.project.ptmanager.exception.AuthenticationException;
 import com.project.ptmanager.exception.MemberNotFoundException;
 import com.project.ptmanager.exception.WorkoutLogNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;
 import com.project.ptmanager.repository.workout.WorkoutLogRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,28 +29,32 @@ public class MemberWorkoutLogService {
     LocalDate start = startOfMonth(year, month);
     LocalDate end = endOfMonth(year, month);
 
-    List<WorkoutLog> list = workoutLogRepository.findAllByMemberIdAndDateBetween(
-        memberId, start, end);
+    List<WorkoutLog> list = workoutLogRepository.findAllByMemberIdAndDateBetween(memberId, start,
+        end);
 
     if (list.isEmpty()) {
-      throw new WorkoutLogNotFoundException("등록된 운동 일지가 없습니다.");
+      throw new WorkoutLogNotFoundException("등록된 운동 일지 정보가 없습니다.");
     }
 
     return list.stream().map(WorkoutLogDto::fromEntity).toList();
   }
 
-  public WorkoutLogDto getWorkoutLog(Long memberId, LocalDate date) {
-    WorkoutLog workoutLog = workoutLogRepository.findByMemberIdAndDate(memberId,
-        date).orElseThrow(() -> new WorkoutLogNotFoundException("등록된 운동 일지가 없습니다."));
+  public WorkoutLogDto getWorkoutLog(Long memberId, Long logId) {
+    WorkoutLog workoutLog = workoutLogRepository.findById(logId)
+        .orElseThrow(() -> new WorkoutLogNotFoundException("등록된 운동 일지 정보가 없습니다."));
+
+    if (!Objects.equals(memberId, workoutLog.getMember().getId())) {
+      throw new AuthenticationException("본인의 운동 일지가 아닙니다.");
+    }
 
     return WorkoutLogDto.fromEntity(workoutLog);
   }
 
-  public Long createWorkoutLog(LocalDate date, WorkoutType type,
-      String exerciseList, Long memberId, Long trainerId) {
+  public Long createWorkoutLog(LocalDate date, String exerciseList, Long memberId, Long trainerId) {
 
     Member member = memberRepository.findById(memberId)
         .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
+
     Member trainer = null;
     if (trainerId != null) {
       trainer = memberRepository.findById(trainerId)
@@ -57,7 +63,7 @@ public class MemberWorkoutLogService {
 
     WorkoutLog log = WorkoutLog.builder()
         .date(date)
-        .type(type)
+        .type(WorkoutType.SELF)
         .exerciseList(exerciseList)
         .trainer(trainer)
         .member(member)
