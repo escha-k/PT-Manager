@@ -1,9 +1,11 @@
 package com.project.ptmanager.dto;
 
 import com.project.ptmanager.domain.workout.WorkoutSchedule;
+import com.project.ptmanager.domain.workout.model.Workout;
 import com.project.ptmanager.enums.WorkoutType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,7 +16,7 @@ public class WorkoutScheduleDto {
   private Long scheduleId;
   private LocalDate date;
   private WorkoutType type;
-  private String exercisePlan;
+  private List<Workout> exercisePlan;
   private String memo;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
