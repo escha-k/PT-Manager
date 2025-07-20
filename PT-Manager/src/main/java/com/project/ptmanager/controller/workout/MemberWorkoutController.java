@@ -1,4 +1,4 @@
-package com.project.ptmanager.controller;
+package com.project.ptmanager.controller.workout;
 
 import com.project.ptmanager.domain.workout.model.Workout;
 import com.project.ptmanager.dto.WorkoutLogCreateRequest;

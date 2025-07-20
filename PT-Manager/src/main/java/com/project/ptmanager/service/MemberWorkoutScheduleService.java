@@ -39,7 +39,7 @@ public class MemberWorkoutScheduleService {
     WorkoutSchedule workoutSchedule = workoutScheduleRepository.findById(scheduleId)
         .orElseThrow(() -> new WorkoutScheduleNotFoundException("등록된 스케줄 정보가 없습니다."));
 
-    if (Objects.equals(memberId, workoutSchedule.getMember().getId())) {
+    if (!Objects.equals(memberId, workoutSchedule.getMember().getId())) {
       throw new AuthenticationException("본인의 운동 스케줄이 아닙니다.");
     }
 

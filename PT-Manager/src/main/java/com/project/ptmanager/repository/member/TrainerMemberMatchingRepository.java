@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TrainerMemberMatchingRepository extends JpaRepository<TrainerMemberMatching, Long> {
 
+  Boolean existsByMemberIdAndTrainerId(Long memberId, Long trainerId);
 }

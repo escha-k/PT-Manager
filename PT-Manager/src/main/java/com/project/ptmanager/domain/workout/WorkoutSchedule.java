@@ -46,7 +46,7 @@ public class WorkoutSchedule {
   @Column(name = "date", nullable = false)
   private LocalDate date;
 
-  @Column(name = "type", nullable = false)
+  @Column(nullable = false)
   private WorkoutType type;
 
   @Type(JsonType.class)
@@ -58,7 +58,7 @@ public class WorkoutSchedule {
   private LocalDateTime updatedAt;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "trainer_id")
+  @JoinColumn(nullable = false)
   private Member trainer; // 작성 트레이너
 
   @ManyToOne(fetch = FetchType.LAZY)

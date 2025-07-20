@@ -46,7 +46,7 @@ public class WorkoutLog {
   @Column(name = "date", nullable = false)
   private LocalDate date;
 
-  @Column(name = "type", nullable = false)
+  @Column(nullable = false)
   private WorkoutType type;
 
   @Type(JsonType.class)
