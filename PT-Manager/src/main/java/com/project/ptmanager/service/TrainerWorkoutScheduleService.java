@@ -7,6 +7,7 @@ import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.workout.WorkoutSchedule;
 import com.project.ptmanager.dto.WorkoutScheduleCreateRequest;
 import com.project.ptmanager.dto.WorkoutScheduleDto;
+import com.project.ptmanager.enums.WorkoutType;
 import com.project.ptmanager.exception.AuthenticationException;
 import com.project.ptmanager.exception.MemberNotFoundException;
 import com.project.ptmanager.exception.WorkoutScheduleNotFoundException;
@@ -70,7 +71,7 @@ public class TrainerWorkoutScheduleService {
 
     WorkoutSchedule schedule = WorkoutSchedule.builder()
         .date(request.getDate())
-        .type(request.getType())
+        .type(WorkoutType.valueOf(request.getType()))
         .exercisePlan(request.getExercisePlan())
         .memo(request.getMemo())
         .member(member)
