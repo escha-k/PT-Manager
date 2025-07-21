@@ -4,12 +4,15 @@ import com.project.ptmanager.domain.workout.model.Workout;
 import com.project.ptmanager.dto.WorkoutLogCreateRequest;
 import com.project.ptmanager.dto.WorkoutLogDto;
 import com.project.ptmanager.dto.WorkoutScheduleDto;
+import com.project.ptmanager.security.CustomUserDetails;
 import com.project.ptmanager.service.MemberWorkoutLogService;
 import com.project.ptmanager.service.MemberWorkoutScheduleService;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@PreAuthorize("hasRole('MEMBER')")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
@@ -29,10 +33,11 @@ public class MemberWorkoutController {
   @GetMapping("/schedules")
   public ResponseEntity<List<WorkoutScheduleDto>> getWorkoutScheduleList(
       @RequestParam int year,
-      @RequestParam int month
+      @RequestParam int month,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 
-    Long memberId = 0L; // TODO: 인증에서 멤버 키 가져오기 구현
+    Long memberId = userDetails.getId();
 
     List<WorkoutScheduleDto> scheduleList = memberWorkoutScheduleService.getScheduleList(memberId,
         year,
@@ -43,10 +48,11 @@ public class MemberWorkoutController {
 
   @GetMapping("/schedule/{scheduleId}")
   public ResponseEntity<WorkoutScheduleDto> getWorkoutScheduleDetail(
-      @PathVariable Long scheduleId
+      @PathVariable Long scheduleId,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 
-    Long memberId = 0L; // TODO: 인증에서 멤버 키 가져오기 구현
+    Long memberId = userDetails.getId();
 
     WorkoutScheduleDto schedule = memberWorkoutScheduleService.getSchedule(memberId, scheduleId);
 
@@ -56,10 +62,11 @@ public class MemberWorkoutController {
   @GetMapping("/workoutLogs")
   public ResponseEntity<List<WorkoutLogDto>> getWorkoutLogList(
       @RequestParam int year,
-      @RequestParam int month
+      @RequestParam int month,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 
-    Long memberId = 0L; // TODO: 인증에서 멤버 키 가져오기 구현
+    Long memberId = userDetails.getId();
 
     List<WorkoutLogDto> logList = memberWorkoutLogService.getWorkoutLogList(memberId, year, month);
 
@@ -68,10 +75,11 @@ public class MemberWorkoutController {
 
   @GetMapping("/workoutLogs/{logId}")
   public ResponseEntity<WorkoutLogDto> getWorkoutLogDetail(
-      @PathVariable Long logId
+      @PathVariable Long logId,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 
-    Long memberId = 0L; // TODO: 인증에서 멤버 키 가져오기 구현
+    Long memberId = userDetails.getId();
 
     WorkoutLogDto log = memberWorkoutLogService.getWorkoutLog(memberId, logId);
 
@@ -80,17 +88,16 @@ public class MemberWorkoutController {
 
   @PostMapping("/workoutLogs")
   public ResponseEntity<Long> createWorkoutLog(
-      @RequestBody WorkoutLogCreateRequest request
+      @RequestBody WorkoutLogCreateRequest request,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 
     LocalDate date = request.getDate();
     List<Workout> exerciseList = request.getExerciseList();
 
-    Long memberId = 0L; // TODO: 인증에서 멤버 키 가져오기 구현
-    Long trainerId = null; // TODO: 담당 트레이너가 있다면 불러오기
+    Long memberId = userDetails.getId();
 
-    Long logId = memberWorkoutLogService.createWorkoutLog(date, exerciseList, memberId,
-        trainerId);
+    Long logId = memberWorkoutLogService.createWorkoutLog(date, exerciseList, memberId);
 
     return ResponseEntity.ok(logId);
   }

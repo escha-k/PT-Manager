@@ -4,6 +4,7 @@ import static com.project.ptmanager.utils.DateUtils.endOfMonth;
 import static com.project.ptmanager.utils.DateUtils.startOfMonth;
 
 import com.project.ptmanager.domain.member.Member;
+import com.project.ptmanager.domain.member.TrainerMemberMatching;
 import com.project.ptmanager.domain.workout.WorkoutLog;
 import com.project.ptmanager.domain.workout.model.Workout;
 import com.project.ptmanager.dto.WorkoutLogDto;
@@ -12,10 +13,12 @@ import com.project.ptmanager.exception.AuthenticationException;
 import com.project.ptmanager.exception.MemberNotFoundException;
 import com.project.ptmanager.exception.WorkoutLogNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;
+import com.project.ptmanager.repository.member.TrainerMemberMatchingRepository;
 import com.project.ptmanager.repository.workout.WorkoutLogRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,7 @@ public class MemberWorkoutLogService {
 
   private final MemberRepository memberRepository;
   private final WorkoutLogRepository workoutLogRepository;
+  private final TrainerMemberMatchingRepository trainerMemberMatchingRepository;
 
   public List<WorkoutLogDto> getWorkoutLogList(Long memberId, int year, int month) {
     LocalDate start = startOfMonth(year, month);
@@ -51,15 +55,16 @@ public class MemberWorkoutLogService {
     return WorkoutLogDto.fromEntity(workoutLog);
   }
 
-  public Long createWorkoutLog(LocalDate date, List<Workout> exerciseList, Long memberId, Long trainerId) {
+  public Long createWorkoutLog(LocalDate date, List<Workout> exerciseList, Long memberId) {
 
     Member member = memberRepository.findById(memberId)
         .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
 
     Member trainer = null;
-    if (trainerId != null) {
-      trainer = memberRepository.findById(trainerId)
-          .orElseThrow(() -> new MemberNotFoundException("트레이너 정보를 찾을 수 없습니다."));
+    Optional<TrainerMemberMatching> matching = trainerMemberMatchingRepository.findByMemberId(
+        memberId);
+    if (matching.isPresent()) {
+      trainer = matching.get().getTrainer();
     }
 
     WorkoutLog log = WorkoutLog.builder()
