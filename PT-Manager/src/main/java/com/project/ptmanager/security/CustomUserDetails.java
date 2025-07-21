@@ -5,17 +5,22 @@ import com.project.ptmanager.enums.MemberRole;
 import java.util.Collection;
 import java.util.List;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @EqualsAndHashCode
 public class CustomUserDetails implements UserDetails {
 
+  @Getter
+  private final Long id;
   private final String username;
   private final String password;
   private final MemberRole role;
 
   public CustomUserDetails(Member member) {
+    this.id = member.getId();
     this.username = member.getUsername();
     this.password = member.getPassword();
     this.role = member.getRole();
@@ -33,7 +38,7 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of();
+    return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
   }
 
   @Override

@@ -19,19 +19,17 @@ public class JwtTokenProvider {
   public static final String KEY_ROLE = "role";
   public static final long EXPIRATION_TIME = 3600 * 1000; // 1시간
 
-  private final CustomUserDetailsService customUserDetailsService;
-
   @Value("${jwt.secret}")
   private String secret; // TODO: 외부에서 비밀키 설정
-  private final SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes());
 
   public String generateToken(String username, String role) {
     Date now = new Date();
     Date expiration = new Date(now.getTime() + EXPIRATION_TIME);
+    SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes());
 
     return Jwts.builder()
         .subject(username)
-        .claim(KEY_ROLE, role)
+        .claim(KEY_ROLE, role) // role은 MEMBER, TRAINER, MANAGER 중 하나여야 함
         .issuedAt(now)
         .expiration(expiration)
         .signWith(secretKey)
@@ -48,6 +46,7 @@ public class JwtTokenProvider {
   }
 
   private Claims parseClaims(String token) {
+    SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     JwtParser parser = Jwts.parser().verifyWith(secretKey).build();
 
     try {
@@ -55,5 +54,9 @@ public class JwtTokenProvider {
     } catch (ExpiredJwtException e) {
       return e.getClaims();
     }
+  }
+
+  public String getUsername(String token) {
+    return parseClaims(token).getSubject();
   }
 }

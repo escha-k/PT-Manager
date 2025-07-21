@@ -8,7 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import com.project.ptmanager.security.CustomUserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
+@PreAuthorize("hasRole('TRAINER')")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/trainer")
@@ -17,9 +21,11 @@ public class TrainerMatchingController {
   private final TrainerMemberMatchingService trainerMemberMatchingService;
 
   @GetMapping("/matched-member")
-  public ResponseEntity<List<MatchingResponseDto>> getMatching() {
+  public ResponseEntity<List<MatchingResponseDto>> getMatching(
+      @AuthenticationPrincipal CustomUserDetails userDetails
+  ) {
 
-    Long trainerId = null; // TODO: 인증에서 트레이너 정보 가져오기
+    Long trainerId = userDetails.getId();
 
     List<MatchingResponseDto> list = trainerMemberMatchingService.getByTrainerId(trainerId);
 
