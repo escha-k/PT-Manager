@@ -8,6 +8,7 @@ import com.project.ptmanager.dto.auth.RegisterRequestDto;
 import com.project.ptmanager.dto.auth.RegisterResponseDto;
 import com.project.ptmanager.enums.MemberRole;
 import com.project.ptmanager.exception.impl.AuthenticationException;
+import com.project.ptmanager.exception.impl.BranchNotFoundException;
 import com.project.ptmanager.exception.impl.MemberNotFoundException;
 import com.project.ptmanager.exception.impl.PhoneNumberDuplicatedException;
 import com.project.ptmanager.exception.impl.UsernameDuplicatedException;
@@ -43,8 +44,8 @@ public class MemberAuthService {
 
     String encodedPassword = passwordEncoder.encode(request.getPassword());
     MemberRole role = MemberRole.valueOf(request.getRole());
-    Branch branch = branchRepository.findByName(request.getBranchName())
-        .orElse(null); // branch 기능 미구현으로 인해 null 처리
+    Branch branch = branchRepository.findById(1L) // 더미 처리
+        .orElseThrow(BranchNotFoundException::new);
 
     Member member = Member.builder()
         .username(username)
