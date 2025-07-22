@@ -1,10 +1,10 @@
 package com.project.ptmanager.controller.member;
 
 import com.project.ptmanager.domain.workout.model.Workout;
-import com.project.ptmanager.dto.WorkoutFeedbackResponseDto;
-import com.project.ptmanager.dto.WorkoutLogCreateRequest;
-import com.project.ptmanager.dto.WorkoutLogDto;
-import com.project.ptmanager.dto.WorkoutScheduleDto;
+import com.project.ptmanager.dto.workout.WorkoutFeedbackResponseDto;
+import com.project.ptmanager.dto.workout.WorkoutLogCreateRequestDto;
+import com.project.ptmanager.dto.workout.WorkoutLogDto;
+import com.project.ptmanager.dto.workout.WorkoutScheduleDto;
 import com.project.ptmanager.security.CustomUserDetails;
 import com.project.ptmanager.service.MemberWorkoutFeedbackService;
 import com.project.ptmanager.service.MemberWorkoutLogService;
@@ -91,7 +91,7 @@ public class MemberWorkoutController {
 
   @PostMapping("/workoutlogs")
   public ResponseEntity<Long> createWorkoutLog(
-      @RequestBody WorkoutLogCreateRequest request,
+      @RequestBody WorkoutLogCreateRequestDto request,
       @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 

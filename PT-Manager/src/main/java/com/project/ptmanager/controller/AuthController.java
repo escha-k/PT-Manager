@@ -1,9 +1,9 @@
 package com.project.ptmanager.controller;
 
 import com.project.ptmanager.domain.member.Member;
-import com.project.ptmanager.dto.LoginRequest;
-import com.project.ptmanager.dto.RegisterRequest;
-import com.project.ptmanager.dto.RegisterResponseDto;
+import com.project.ptmanager.dto.auth.LoginRequestDto;
+import com.project.ptmanager.dto.auth.RegisterRequestDto;
+import com.project.ptmanager.dto.auth.RegisterResponseDto;
 import com.project.ptmanager.security.JwtTokenProvider;
 import com.project.ptmanager.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class AuthController {
 
   @PostMapping("/register")
   public ResponseEntity<RegisterResponseDto> register(
-      @RequestBody RegisterRequest request
+      @RequestBody RegisterRequestDto request
   ) {
 
     RegisterResponseDto responseDto = memberService.register(request);
@@ -33,7 +33,7 @@ public class AuthController {
 
   @PostMapping("/login")
   public ResponseEntity<String> login(
-      @RequestBody LoginRequest request
+      @RequestBody LoginRequestDto request
   ) {
     Member member = memberService.loginAuthenticate(request);
     String token = tokenProvider.generateToken(member.getUsername(), member.getRole().toString());

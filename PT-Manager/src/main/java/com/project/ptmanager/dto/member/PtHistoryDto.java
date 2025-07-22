@@ -1,4 +1,4 @@
-package com.project.ptmanager.dto;
+package com.project.ptmanager.dto.member;
 
 import com.project.ptmanager.domain.member.PtHistory;
 import java.time.LocalDateTime;

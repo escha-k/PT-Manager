@@ -1,4 +1,4 @@
-package com.project.ptmanager.dto;
+package com.project.ptmanager.dto.auth;
 
 import com.project.ptmanager.domain.member.Member;
 import lombok.Builder;

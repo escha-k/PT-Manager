@@ -7,7 +7,7 @@ import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.member.TrainerMemberMatching;
 import com.project.ptmanager.domain.workout.WorkoutLog;
 import com.project.ptmanager.domain.workout.model.Workout;
-import com.project.ptmanager.dto.WorkoutLogDto;
+import com.project.ptmanager.dto.workout.WorkoutLogDto;
 import com.project.ptmanager.enums.WorkoutType;
 import com.project.ptmanager.exception.AuthenticationException;
 import com.project.ptmanager.exception.MemberNotFoundException;

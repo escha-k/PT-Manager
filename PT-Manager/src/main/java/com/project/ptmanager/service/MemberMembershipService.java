@@ -2,8 +2,8 @@ package com.project.ptmanager.service;
 
 import com.project.ptmanager.domain.member.Membership;
 import com.project.ptmanager.domain.member.PtHistory;
-import com.project.ptmanager.dto.MembershipDto;
-import com.project.ptmanager.dto.PtHistoryDto;
+import com.project.ptmanager.dto.member.MembershipDto;
+import com.project.ptmanager.dto.member.PtHistoryDto;
 import com.project.ptmanager.exception.PtHistoryNotFoundException;
 import com.project.ptmanager.repository.member.MembershipRepository;
 import com.project.ptmanager.repository.member.PtHistoryRepository;

@@ -5,8 +5,8 @@ import static com.project.ptmanager.utils.DateUtils.startOfMonth;
 
 import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.workout.WorkoutSchedule;
-import com.project.ptmanager.dto.WorkoutScheduleCreateRequest;
-import com.project.ptmanager.dto.WorkoutScheduleDto;
+import com.project.ptmanager.dto.workout.WorkoutScheduleCreateRequestDto;
+import com.project.ptmanager.dto.workout.WorkoutScheduleDto;
 import com.project.ptmanager.enums.WorkoutType;
 import com.project.ptmanager.exception.AuthenticationException;
 import com.project.ptmanager.exception.MemberNotFoundException;
@@ -61,7 +61,7 @@ public class TrainerWorkoutScheduleService {
   }
 
   public Long createSchedule(Long trainerId, Long memberId,
-      WorkoutScheduleCreateRequest request) {
+      WorkoutScheduleCreateRequestDto request) {
 
     validateMatching(trainerId, memberId);
 

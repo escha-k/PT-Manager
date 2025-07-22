@@ -1,4 +1,4 @@
-package com.project.ptmanager.dto;
+package com.project.ptmanager.dto.statistics;
 
 import com.project.ptmanager.domain.statistics.Statistics;
 import com.project.ptmanager.enums.StatisticsType;

@@ -7,8 +7,8 @@ import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.member.Membership;
 import com.project.ptmanager.domain.member.PtHistory;
 import com.project.ptmanager.domain.workout.WorkoutLog;
-import com.project.ptmanager.dto.WorkoutLogCreateRequest;
-import com.project.ptmanager.dto.WorkoutLogDto;
+import com.project.ptmanager.dto.workout.WorkoutLogCreateRequestDto;
+import com.project.ptmanager.dto.workout.WorkoutLogDto;
 import com.project.ptmanager.enums.PtChangeType;
 import com.project.ptmanager.enums.WorkoutType;
 import com.project.ptmanager.exception.AuthenticationException;
@@ -71,7 +71,7 @@ public class TrainerWorkoutLogService {
 
   @Transactional
   public Long createLog(Long trainerId, Long memberId,
-      WorkoutLogCreateRequest request) {
+      WorkoutLogCreateRequestDto request) {
 
     validateMatching(trainerId, memberId);
 

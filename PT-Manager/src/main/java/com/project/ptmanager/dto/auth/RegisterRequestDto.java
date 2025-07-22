@@ -1,9 +1,9 @@
-package com.project.ptmanager.dto;
+package com.project.ptmanager.dto.auth;
 
 import lombok.Data;
 
 @Data
-public class RegisterRequest {
+public class RegisterRequestDto {
 
   private String username;
   private String password;

@@ -2,8 +2,8 @@ package com.project.ptmanager.service;
 
 import com.project.ptmanager.domain.workout.WorkoutFeedback;
 import com.project.ptmanager.domain.workout.WorkoutLog;
-import com.project.ptmanager.dto.WorkoutFeedbackRequestDto;
-import com.project.ptmanager.dto.WorkoutFeedbackResponseDto;
+import com.project.ptmanager.dto.workout.WorkoutFeedbackRequestDto;
+import com.project.ptmanager.dto.workout.WorkoutFeedbackResponseDto;
 import com.project.ptmanager.exception.AuthenticationException;
 import com.project.ptmanager.exception.WorkoutFeedbackNotFoundException;
 import com.project.ptmanager.exception.WorkoutLogNotFoundException;

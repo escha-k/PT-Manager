@@ -1,11 +1,11 @@
 package com.project.ptmanager.controller.trainer;
 
-import com.project.ptmanager.dto.WorkoutFeedbackRequestDto;
-import com.project.ptmanager.dto.WorkoutFeedbackResponseDto;
-import com.project.ptmanager.dto.WorkoutLogCreateRequest;
-import com.project.ptmanager.dto.WorkoutLogDto;
-import com.project.ptmanager.dto.WorkoutScheduleCreateRequest;
-import com.project.ptmanager.dto.WorkoutScheduleDto;
+import com.project.ptmanager.dto.workout.WorkoutFeedbackRequestDto;
+import com.project.ptmanager.dto.workout.WorkoutFeedbackResponseDto;
+import com.project.ptmanager.dto.workout.WorkoutLogCreateRequestDto;
+import com.project.ptmanager.dto.workout.WorkoutLogDto;
+import com.project.ptmanager.dto.workout.WorkoutScheduleCreateRequestDto;
+import com.project.ptmanager.dto.workout.WorkoutScheduleDto;
 import com.project.ptmanager.security.CustomUserDetails;
 import com.project.ptmanager.service.TrainerWorkoutFeedbackService;
 import com.project.ptmanager.service.TrainerWorkoutLogService;
@@ -67,7 +67,7 @@ public class TrainerWorkoutController {
   @PostMapping("/members/{memberId}/schedules")
   public ResponseEntity<Long> createMemberSchedule(
       @PathVariable Long memberId,
-      @RequestBody WorkoutScheduleCreateRequest request,
+      @RequestBody WorkoutScheduleCreateRequestDto request,
       @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 
@@ -111,7 +111,7 @@ public class TrainerWorkoutController {
   @PostMapping("/members/{memberId}/workoutlogs")
   public ResponseEntity<Long> createMemberWorkoutLog(
       @PathVariable Long memberId,
-      @RequestBody WorkoutLogCreateRequest request,
+      @RequestBody WorkoutLogCreateRequestDto request,
       @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 

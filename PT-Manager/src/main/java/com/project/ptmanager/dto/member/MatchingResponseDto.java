@@ -1,4 +1,4 @@
-package com.project.ptmanager.dto;
+package com.project.ptmanager.dto.member;
 
 import lombok.Builder;
 import lombok.Data;

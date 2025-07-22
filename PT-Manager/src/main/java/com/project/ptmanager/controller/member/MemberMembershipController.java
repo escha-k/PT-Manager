@@ -1,7 +1,7 @@
 package com.project.ptmanager.controller.member;
 
-import com.project.ptmanager.dto.MembershipDto;
-import com.project.ptmanager.dto.PtHistoryDto;
+import com.project.ptmanager.dto.member.MembershipDto;
+import com.project.ptmanager.dto.member.PtHistoryDto;
 import com.project.ptmanager.security.CustomUserDetails;
 import com.project.ptmanager.service.MemberMembershipService;
 import java.util.List;
@@ -32,7 +32,7 @@ public class MemberMembershipController {
 
     return ResponseEntity.ok(dto);
   }
-  
+
   @GetMapping("/pt-history")
   public ResponseEntity<List<PtHistoryDto>> getPtHistory(
       @AuthenticationPrincipal CustomUserDetails userDetails

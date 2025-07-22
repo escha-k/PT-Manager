@@ -1,6 +1,6 @@
 package com.project.ptmanager.controller.member;
 
-import com.project.ptmanager.dto.MatchingResponseDto;
+import com.project.ptmanager.dto.member.MatchingResponseDto;
 import com.project.ptmanager.security.CustomUserDetails;
 import com.project.ptmanager.service.TrainerMemberMatchingService;
 import lombok.RequiredArgsConstructor;

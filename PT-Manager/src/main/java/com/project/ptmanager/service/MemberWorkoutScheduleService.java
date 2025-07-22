@@ -4,7 +4,7 @@ import static com.project.ptmanager.utils.DateUtils.endOfMonth;
 import static com.project.ptmanager.utils.DateUtils.startOfMonth;
 
 import com.project.ptmanager.domain.workout.WorkoutSchedule;
-import com.project.ptmanager.dto.WorkoutScheduleDto;
+import com.project.ptmanager.dto.workout.WorkoutScheduleDto;
 import com.project.ptmanager.exception.AuthenticationException;
 import com.project.ptmanager.exception.WorkoutScheduleNotFoundException;
 import com.project.ptmanager.repository.workout.WorkoutScheduleRepository;

@@ -1,6 +1,6 @@
 package com.project.ptmanager.controller.manager;
 
-import com.project.ptmanager.dto.MembershipDurationDto;
+import com.project.ptmanager.dto.member.MembershipDurationDto;
 import com.project.ptmanager.service.ManagerMembershipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

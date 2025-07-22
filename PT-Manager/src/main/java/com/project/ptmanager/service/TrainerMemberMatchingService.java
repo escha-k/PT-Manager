@@ -2,8 +2,8 @@ package com.project.ptmanager.service;
 
 import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.member.TrainerMemberMatching;
-import com.project.ptmanager.dto.MatchingResponseDto;
-import com.project.ptmanager.dto.TrainerMemberMatchingDto;
+import com.project.ptmanager.dto.member.MatchingResponseDto;
+import com.project.ptmanager.dto.member.TrainerMemberMatchingDto;
 import com.project.ptmanager.exception.MatchingNotFoundException;
 import com.project.ptmanager.exception.MemberNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;

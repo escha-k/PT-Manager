@@ -1,6 +1,6 @@
 package com.project.ptmanager.controller.manager;
 
-import com.project.ptmanager.dto.TrainerMemberMatchingDto;
+import com.project.ptmanager.dto.member.TrainerMemberMatchingDto;
 import com.project.ptmanager.service.TrainerMemberMatchingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +20,10 @@ public class ManagerMatchingController {
 
   @PostMapping("")
   public ResponseEntity<Long> createMatching(
-      @RequestBody TrainerMemberMatchingDto trainerMemberMatchingDto
+      @RequestBody TrainerMemberMatchingDto request
   ) {
 
-    Long matchingId = trainerMemberMatchingService.createMatching(trainerMemberMatchingDto);
+    Long matchingId = trainerMemberMatchingService.createMatching(request);
 
     return ResponseEntity.ok(matchingId);
   }

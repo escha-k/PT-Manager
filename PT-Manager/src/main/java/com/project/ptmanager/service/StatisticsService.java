@@ -2,7 +2,7 @@ package com.project.ptmanager.service;
 
 import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.statistics.Statistics;
-import com.project.ptmanager.dto.StatisticsDto;
+import com.project.ptmanager.dto.statistics.StatisticsDto;
 import com.project.ptmanager.enums.StatisticsType;
 import com.project.ptmanager.exception.MemberNotFoundException;
 import com.project.ptmanager.exception.StatisticsNotFoundException;

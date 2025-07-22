@@ -1,4 +1,4 @@
-package com.project.ptmanager.dto;
+package com.project.ptmanager.dto.workout;
 
 import com.project.ptmanager.domain.workout.WorkoutLog;
 import com.project.ptmanager.domain.workout.model.Workout;

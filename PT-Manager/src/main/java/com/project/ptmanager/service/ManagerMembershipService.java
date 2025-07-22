@@ -3,7 +3,7 @@ package com.project.ptmanager.service;
 import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.member.Membership;
 import com.project.ptmanager.domain.member.PtHistory;
-import com.project.ptmanager.dto.MembershipDurationDto;
+import com.project.ptmanager.dto.member.MembershipDurationDto;
 import com.project.ptmanager.enums.PtChangeType;
 import com.project.ptmanager.exception.MemberNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;

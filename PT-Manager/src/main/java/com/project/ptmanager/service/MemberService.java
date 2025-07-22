@@ -3,12 +3,11 @@ package com.project.ptmanager.service;
 import com.project.ptmanager.domain.member.Branch;
 import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.member.Membership;
-import com.project.ptmanager.dto.LoginRequest;
-import com.project.ptmanager.dto.RegisterRequest;
-import com.project.ptmanager.dto.RegisterResponseDto;
+import com.project.ptmanager.dto.auth.LoginRequestDto;
+import com.project.ptmanager.dto.auth.RegisterRequestDto;
+import com.project.ptmanager.dto.auth.RegisterResponseDto;
 import com.project.ptmanager.enums.MemberRole;
 import com.project.ptmanager.exception.AuthenticationException;
-import com.project.ptmanager.exception.BranchNotFoundException;
 import com.project.ptmanager.exception.MemberNotFoundException;
 import com.project.ptmanager.exception.PhoneNumberDuplicatedException;
 import com.project.ptmanager.exception.UsernameDuplicatedException;
@@ -30,7 +29,7 @@ public class MemberService {
   private final PasswordEncoder passwordEncoder;
 
   @Transactional
-  public RegisterResponseDto register(RegisterRequest request) {
+  public RegisterResponseDto register(RegisterRequestDto request) {
 
     String username = request.getUsername();
     if (memberRepository.existsByUsername(username)) {
@@ -45,7 +44,7 @@ public class MemberService {
     String encodedPassword = passwordEncoder.encode(request.getPassword());
     MemberRole role = MemberRole.valueOf(request.getRole());
     Branch branch = branchRepository.findByName(request.getBranchName())
-        .orElseThrow(() -> new BranchNotFoundException("지점 정보를 찾을 수 없습니다."));
+        .orElse(null); // branch 기능 미구현으로 인해 null 처리
 
     Member member = Member.builder()
         .username(username)
@@ -69,7 +68,7 @@ public class MemberService {
     return RegisterResponseDto.fromEntity(saved);
   }
 
-  public Member loginAuthenticate(LoginRequest request) {
+  public Member loginAuthenticate(LoginRequestDto request) {
     Member member = memberRepository.findByUsername(request.getUsername())
         .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
 
