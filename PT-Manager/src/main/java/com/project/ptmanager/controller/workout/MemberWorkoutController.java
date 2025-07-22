@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasRole('MEMBER')")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/members")
+@RequestMapping("/member")
 public class MemberWorkoutController {
 
   private final MemberWorkoutScheduleService memberWorkoutScheduleService;

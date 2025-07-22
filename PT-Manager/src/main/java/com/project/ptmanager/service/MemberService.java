@@ -2,6 +2,7 @@ package com.project.ptmanager.service;
 
 import com.project.ptmanager.domain.member.Branch;
 import com.project.ptmanager.domain.member.Member;
+import com.project.ptmanager.domain.member.Membership;
 import com.project.ptmanager.dto.LoginRequest;
 import com.project.ptmanager.dto.RegisterRequest;
 import com.project.ptmanager.dto.RegisterResponseDto;
@@ -13,9 +14,11 @@ import com.project.ptmanager.exception.PhoneNumberDuplicatedException;
 import com.project.ptmanager.exception.UsernameDuplicatedException;
 import com.project.ptmanager.repository.member.BranchRepository;
 import com.project.ptmanager.repository.member.MemberRepository;
+import com.project.ptmanager.repository.member.MembershipRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +26,10 @@ public class MemberService {
 
   private final MemberRepository memberRepository;
   private final BranchRepository branchRepository;
+  private final MembershipRepository membershipRepository;
   private final PasswordEncoder passwordEncoder;
 
+  @Transactional
   public RegisterResponseDto register(RegisterRequest request) {
 
     String username = request.getUsername();
@@ -53,6 +58,13 @@ public class MemberService {
         .build();
 
     Member saved = memberRepository.save(member);
+
+    Membership membership = Membership.builder()
+        .member(saved)
+        .ptRemaining(0)
+        .build();
+
+    membershipRepository.save(membership);
 
     return RegisterResponseDto.fromEntity(saved);
   }

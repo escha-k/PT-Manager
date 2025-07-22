@@ -4,14 +4,19 @@ import static com.project.ptmanager.utils.DateUtils.endOfMonth;
 import static com.project.ptmanager.utils.DateUtils.startOfMonth;
 
 import com.project.ptmanager.domain.member.Member;
+import com.project.ptmanager.domain.member.Membership;
+import com.project.ptmanager.domain.member.PtHistory;
 import com.project.ptmanager.domain.workout.WorkoutLog;
 import com.project.ptmanager.dto.WorkoutLogCreateRequest;
 import com.project.ptmanager.dto.WorkoutLogDto;
+import com.project.ptmanager.enums.PtChangeType;
 import com.project.ptmanager.enums.WorkoutType;
 import com.project.ptmanager.exception.AuthenticationException;
 import com.project.ptmanager.exception.MemberNotFoundException;
 import com.project.ptmanager.exception.WorkoutLogNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;
+import com.project.ptmanager.repository.member.MembershipRepository;
+import com.project.ptmanager.repository.member.PtHistoryRepository;
 import com.project.ptmanager.repository.member.TrainerMemberMatchingRepository;
 import com.project.ptmanager.repository.workout.WorkoutLogRepository;
 import java.time.LocalDate;
@@ -19,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +33,8 @@ public class TrainerWorkoutLogService {
   private final MemberRepository memberRepository;
   private final WorkoutLogRepository workoutLogRepository;
   private final TrainerMemberMatchingRepository trainerMemberMatchingRepository;
+  private final MembershipRepository membershipRepository;
+  private final PtHistoryRepository ptHistoryRepository;
 
   public List<WorkoutLogDto> getWorkoutLogList(Long trainerId, Long memberId, int year,
       int month) {
@@ -61,6 +69,7 @@ public class TrainerWorkoutLogService {
     return WorkoutLogDto.fromEntity(workoutLog);
   }
 
+  @Transactional
   public Long createLog(Long trainerId, Long memberId,
       WorkoutLogCreateRequest request) {
 
@@ -70,6 +79,7 @@ public class TrainerWorkoutLogService {
         .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
     Member trainer = memberRepository.findById(trainerId)
         .orElseThrow(() -> new MemberNotFoundException("트레이너 정보를 찾을 수 없습니다."));
+    Membership membership = membershipRepository.findById(memberId).get(); // null 검사 생략
 
     WorkoutLog workoutLog = WorkoutLog.builder()
         .date(request.getDate())
@@ -80,6 +90,18 @@ public class TrainerWorkoutLogService {
         .build();
 
     WorkoutLog saved = workoutLogRepository.save(workoutLog);
+
+    int ptRemaining = membership.getPtRemaining();
+    membership.setPtRemaining(ptRemaining - 1);
+    membershipRepository.save(membership);
+
+    PtHistory history = PtHistory.builder()
+        .member(member)
+        .changeType(PtChangeType.USE)
+        .amount(1)
+        .build();
+
+    ptHistoryRepository.save(history);
 
     return saved.getId();
   }
