@@ -2,7 +2,7 @@ package com.project.ptmanager.controller.member;
 
 import com.project.ptmanager.dto.member.MatchingResponseDto;
 import com.project.ptmanager.security.CustomUserDetails;
-import com.project.ptmanager.service.TrainerMemberMatchingService;
+import com.project.ptmanager.service.member.TrainerMemberMatchingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

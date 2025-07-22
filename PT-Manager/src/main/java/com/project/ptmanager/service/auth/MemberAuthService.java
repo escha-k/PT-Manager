@@ -1,4 +1,4 @@
-package com.project.ptmanager.service;
+package com.project.ptmanager.service.auth;
 
 import com.project.ptmanager.domain.member.Branch;
 import com.project.ptmanager.domain.member.Member;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberAuthService {
 
   private final MemberRepository memberRepository;
   private final BranchRepository branchRepository;

@@ -1,7 +1,7 @@
 package com.project.ptmanager.controller.manager;
 
 import com.project.ptmanager.dto.member.MembershipDurationDto;
-import com.project.ptmanager.service.ManagerMembershipService;
+import com.project.ptmanager.service.member.ManagerMembershipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

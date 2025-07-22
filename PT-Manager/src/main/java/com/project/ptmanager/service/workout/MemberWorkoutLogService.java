@@ -1,4 +1,4 @@
-package com.project.ptmanager.service;
+package com.project.ptmanager.service.workout;
 
 import static com.project.ptmanager.utils.DateUtils.endOfMonth;
 import static com.project.ptmanager.utils.DateUtils.startOfMonth;

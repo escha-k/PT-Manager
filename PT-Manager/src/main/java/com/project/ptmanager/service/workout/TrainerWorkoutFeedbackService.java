@@ -1,4 +1,4 @@
-package com.project.ptmanager.service;
+package com.project.ptmanager.service.workout;
 
 import com.project.ptmanager.domain.workout.WorkoutFeedback;
 import com.project.ptmanager.domain.workout.WorkoutLog;

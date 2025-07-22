@@ -1,4 +1,4 @@
-package com.project.ptmanager.service;
+package com.project.ptmanager.service.statistics;
 
 import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.statistics.Statistics;
@@ -14,6 +14,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class StatisticsGeneratorService {
   private final MemberRepository memberRepository;
   private final CacheManager cacheManager;
 
+  @Transactional
   public void generateWeeklyStatistics(Long memberId, LocalDate weekStart) {
 
     Member member = memberRepository.findById(memberId)
@@ -37,6 +39,7 @@ public class StatisticsGeneratorService {
     cacheManager.getCache("weeklyStatistics").put(memberId + ":" + weekStart, saved);
   }
 
+  @Transactional
   public void generateMonthlyStatistics(Long memberId, LocalDate monthStart) {
 
     Member member = memberRepository.findById(memberId)

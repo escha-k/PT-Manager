@@ -1,4 +1,4 @@
-package com.project.ptmanager.service;
+package com.project.ptmanager.service.member;
 
 import com.project.ptmanager.domain.member.Membership;
 import com.project.ptmanager.domain.member.PtHistory;

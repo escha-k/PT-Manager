@@ -2,7 +2,7 @@ package com.project.ptmanager.controller.member;
 
 import com.project.ptmanager.dto.statistics.StatisticsDto;
 import com.project.ptmanager.security.CustomUserDetails;
-import com.project.ptmanager.service.StatisticsService;
+import com.project.ptmanager.service.statistics.StatisticsService;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -2,7 +2,7 @@ package com.project.ptmanager.scheduler;
 
 import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.repository.member.MemberRepository;
-import com.project.ptmanager.service.StatisticsGeneratorService;
+import com.project.ptmanager.service.statistics.StatisticsGeneratorService;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;

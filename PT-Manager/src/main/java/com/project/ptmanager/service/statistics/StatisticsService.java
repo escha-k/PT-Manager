@@ -1,4 +1,4 @@
-package com.project.ptmanager.service;
+package com.project.ptmanager.service.statistics;
 
 import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.statistics.Statistics;
