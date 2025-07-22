@@ -1,10 +1,12 @@
 package com.project.ptmanager.controller.workout;
 
 import com.project.ptmanager.domain.workout.model.Workout;
+import com.project.ptmanager.dto.WorkoutFeedbackResponseDto;
 import com.project.ptmanager.dto.WorkoutLogCreateRequest;
 import com.project.ptmanager.dto.WorkoutLogDto;
 import com.project.ptmanager.dto.WorkoutScheduleDto;
 import com.project.ptmanager.security.CustomUserDetails;
+import com.project.ptmanager.service.MemberWorkoutFeedbackService;
 import com.project.ptmanager.service.MemberWorkoutLogService;
 import com.project.ptmanager.service.MemberWorkoutScheduleService;
 import java.time.LocalDate;
@@ -29,6 +31,7 @@ public class MemberWorkoutController {
 
   private final MemberWorkoutScheduleService memberWorkoutScheduleService;
   private final MemberWorkoutLogService memberWorkoutLogService;
+  private final MemberWorkoutFeedbackService memberWorkoutFeedbackService;
 
   @GetMapping("/schedules")
   public ResponseEntity<List<WorkoutScheduleDto>> getWorkoutScheduleList(
@@ -59,7 +62,7 @@ public class MemberWorkoutController {
     return ResponseEntity.ok().body(schedule);
   }
 
-  @GetMapping("/workoutLogs")
+  @GetMapping("/workoutlogs")
   public ResponseEntity<List<WorkoutLogDto>> getWorkoutLogList(
       @RequestParam int year,
       @RequestParam int month,
@@ -73,7 +76,7 @@ public class MemberWorkoutController {
     return ResponseEntity.ok().body(logList);
   }
 
-  @GetMapping("/workoutLogs/{logId}")
+  @GetMapping("/workoutlogs/{logId}")
   public ResponseEntity<WorkoutLogDto> getWorkoutLogDetail(
       @PathVariable Long logId,
       @AuthenticationPrincipal CustomUserDetails userDetails
@@ -86,7 +89,7 @@ public class MemberWorkoutController {
     return ResponseEntity.ok().body(log);
   }
 
-  @PostMapping("/workoutLogs")
+  @PostMapping("/workoutlogs")
   public ResponseEntity<Long> createWorkoutLog(
       @RequestBody WorkoutLogCreateRequest request,
       @AuthenticationPrincipal CustomUserDetails userDetails
@@ -101,4 +104,19 @@ public class MemberWorkoutController {
 
     return ResponseEntity.ok(logId);
   }
+
+  @GetMapping("/workoutlogs/{logId}/feedbacks")
+  public ResponseEntity<List<WorkoutFeedbackResponseDto>> getWorkoutFeedbackList(
+      @PathVariable Long logId,
+      @AuthenticationPrincipal CustomUserDetails userDetails
+  ) {
+
+    Long memberId = userDetails.getId();
+
+    List<WorkoutFeedbackResponseDto> list = memberWorkoutFeedbackService.getFeedbackList(
+        memberId, logId);
+
+    return ResponseEntity.ok(list);
+  }
+
 }

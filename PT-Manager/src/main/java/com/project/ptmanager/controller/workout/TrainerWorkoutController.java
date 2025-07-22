@@ -1,10 +1,13 @@
 package com.project.ptmanager.controller.workout;
 
+import com.project.ptmanager.dto.WorkoutFeedbackRequestDto;
+import com.project.ptmanager.dto.WorkoutFeedbackResponseDto;
 import com.project.ptmanager.dto.WorkoutLogCreateRequest;
 import com.project.ptmanager.dto.WorkoutLogDto;
 import com.project.ptmanager.dto.WorkoutScheduleCreateRequest;
 import com.project.ptmanager.dto.WorkoutScheduleDto;
 import com.project.ptmanager.security.CustomUserDetails;
+import com.project.ptmanager.service.TrainerWorkoutFeedbackService;
 import com.project.ptmanager.service.TrainerWorkoutLogService;
 import com.project.ptmanager.service.TrainerWorkoutScheduleService;
 import java.util.List;
@@ -28,8 +31,9 @@ public class TrainerWorkoutController {
 
   private final TrainerWorkoutScheduleService trainerWorkoutScheduleService;
   private final TrainerWorkoutLogService trainerWorkoutLogService;
+  private final TrainerWorkoutFeedbackService trainerWorkoutFeedbackService;
 
-  @GetMapping("/myMember/{memberId}/schedules")
+  @GetMapping("/members/{memberId}/schedules")
   public ResponseEntity<List<WorkoutScheduleDto>> getMemberScheduleList(
       @PathVariable("memberId") Long memberId,
       @RequestParam int year,
@@ -45,7 +49,7 @@ public class TrainerWorkoutController {
     return ResponseEntity.ok(list);
   }
 
-  @GetMapping("/myMember/{memberId}/schedules/{scheduleId}")
+  @GetMapping("/members/{memberId}/schedules/{scheduleId}")
   public ResponseEntity<WorkoutScheduleDto> getMemberScheduleDetail(
       @PathVariable Long memberId,
       @PathVariable Long scheduleId,
@@ -60,7 +64,7 @@ public class TrainerWorkoutController {
     return ResponseEntity.ok(schedule);
   }
 
-  @PostMapping("/myMember/{memberId}/schedules")
+  @PostMapping("/members/{memberId}/schedules")
   public ResponseEntity<Long> createMemberSchedule(
       @PathVariable Long memberId,
       @RequestBody WorkoutScheduleCreateRequest request,
@@ -74,7 +78,7 @@ public class TrainerWorkoutController {
     return ResponseEntity.ok(scheduleId);
   }
 
-  @GetMapping("/myMember/{memberId}/workoutLogs")
+  @GetMapping("/members/{memberId}/workoutlogs")
   public ResponseEntity<List<WorkoutLogDto>> getMemberWorkoutLogs(
       @PathVariable Long memberId,
       @RequestParam int year,
@@ -90,7 +94,7 @@ public class TrainerWorkoutController {
     return ResponseEntity.ok(list);
   }
 
-  @GetMapping("/myMember/{memberId}/workoutLogs/{logId}")
+  @GetMapping("/members/{memberId}/workoutlogs/{logId}")
   public ResponseEntity<WorkoutLogDto> getMemberWorkoutLog(
       @PathVariable Long memberId,
       @PathVariable Long logId,
@@ -104,7 +108,7 @@ public class TrainerWorkoutController {
     return ResponseEntity.ok(workoutLog);
   }
 
-  @PostMapping("/myMember/{memberId}/workoutLogs")
+  @PostMapping("/members/{memberId}/workoutlogs")
   public ResponseEntity<Long> createMemberWorkoutLog(
       @PathVariable Long memberId,
       @RequestBody WorkoutLogCreateRequest request,
@@ -116,5 +120,36 @@ public class TrainerWorkoutController {
     Long logId = trainerWorkoutLogService.createLog(trainerId, memberId, request);
 
     return ResponseEntity.ok(logId);
+  }
+
+  @GetMapping("/members/{memberId}/workoutlogs/{logId}/feedbacks")
+  public ResponseEntity<List<WorkoutFeedbackResponseDto>> getMemberWorkoutFeedbacks(
+      @PathVariable Long memberId,
+      @PathVariable Long logId,
+      @AuthenticationPrincipal CustomUserDetails userDetails
+  ) {
+
+    Long trainerId = userDetails.getId();
+
+    List<WorkoutFeedbackResponseDto> list = trainerWorkoutFeedbackService.getFeedbackList(trainerId,
+        memberId, logId);
+
+    return ResponseEntity.ok(list);
+  }
+
+  @PostMapping("/members/{memberId}/workoutlogs/{logId}/feedbacks")
+  public ResponseEntity<Long> createMemberWorkoutFeedback(
+      @PathVariable Long memberId,
+      @PathVariable Long logId,
+      @RequestBody WorkoutFeedbackRequestDto request,
+      @AuthenticationPrincipal CustomUserDetails userDetails
+  ) {
+
+    Long trainerId = userDetails.getId();
+
+    Long feedbackId = trainerWorkoutFeedbackService.createFeedback(trainerId, memberId, logId,
+        request);
+
+    return ResponseEntity.ok(feedbackId);
   }
 }
