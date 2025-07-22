@@ -6,6 +6,7 @@ import com.project.ptmanager.enums.WorkoutType;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +24,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
@@ -30,6 +34,7 @@ import org.hibernate.annotations.Type;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(
     uniqueConstraints = {
         @UniqueConstraint(
@@ -50,11 +55,14 @@ public class WorkoutSchedule {
   private WorkoutType type;
 
   @Type(JsonType.class)
+  @Column(columnDefinition = "json")
   private List<Workout> exercisePlan; // 운동 플랜 - json 문자열로 저장
 
   private String memo;
 
+  @CreatedDate
   private LocalDateTime createdAt;
+  @LastModifiedDate
   private LocalDateTime updatedAt;
 
   @ManyToOne(fetch = FetchType.LAZY)

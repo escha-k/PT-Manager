@@ -2,6 +2,7 @@ package com.project.ptmanager.domain.member;
 
 import com.project.ptmanager.enums.PtChangeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +14,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Entity
 @Getter
@@ -20,6 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class PtHistory {
 
   @Id
@@ -34,5 +39,6 @@ public class PtHistory {
 
   private Integer amount;
 
+  @CreatedDate
   private LocalDateTime changedAt;
 }

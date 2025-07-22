@@ -1,6 +1,7 @@
 package com.project.ptmanager.domain.member;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +16,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
@@ -22,6 +25,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(
     uniqueConstraints = {
         @UniqueConstraint(
@@ -43,5 +47,6 @@ public class TrainerMemberMatching {
   @JoinColumn(name = "trainer_id", nullable = false)
   private Member trainer;
 
+  @CreatedDate
   private LocalDateTime createdAt;
 }
