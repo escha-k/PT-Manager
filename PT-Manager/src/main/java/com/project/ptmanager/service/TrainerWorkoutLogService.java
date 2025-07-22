@@ -11,9 +11,9 @@ import com.project.ptmanager.dto.workout.WorkoutLogCreateRequestDto;
 import com.project.ptmanager.dto.workout.WorkoutLogDto;
 import com.project.ptmanager.enums.PtChangeType;
 import com.project.ptmanager.enums.WorkoutType;
-import com.project.ptmanager.exception.AuthenticationException;
-import com.project.ptmanager.exception.MemberNotFoundException;
-import com.project.ptmanager.exception.WorkoutLogNotFoundException;
+import com.project.ptmanager.exception.impl.AuthenticationException;
+import com.project.ptmanager.exception.impl.MemberNotFoundException;
+import com.project.ptmanager.exception.impl.WorkoutLogNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;
 import com.project.ptmanager.repository.member.MembershipRepository;
 import com.project.ptmanager.repository.member.PtHistoryRepository;
@@ -48,7 +48,7 @@ public class TrainerWorkoutLogService {
         end);
 
     if (list.isEmpty()) {
-      throw new WorkoutLogNotFoundException("등록된 운동 일지 정보가 없습니다.");
+      throw new WorkoutLogNotFoundException();
     }
 
     return list.stream().map(WorkoutLogDto::fromEntity).toList();
@@ -60,10 +60,10 @@ public class TrainerWorkoutLogService {
     validateMatching(trainerId, memberId);
 
     WorkoutLog workoutLog = workoutLogRepository.findById(logId)
-        .orElseThrow(() -> new WorkoutLogNotFoundException("등록된 운동 일지 정보가 없습니다."));
+        .orElseThrow(WorkoutLogNotFoundException::new);
 
     if (!Objects.equals(memberId, workoutLog.getMember().getId())) {
-      throw new AuthenticationException("본인 담당 회원의 일지가 아닙니다.");
+      throw new AuthenticationException();
     }
 
     return WorkoutLogDto.fromEntity(workoutLog);
@@ -76,9 +76,9 @@ public class TrainerWorkoutLogService {
     validateMatching(trainerId, memberId);
 
     Member member = memberRepository.findById(memberId)
-        .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
+        .orElseThrow(MemberNotFoundException::new);
     Member trainer = memberRepository.findById(trainerId)
-        .orElseThrow(() -> new MemberNotFoundException("트레이너 정보를 찾을 수 없습니다."));
+        .orElseThrow(MemberNotFoundException::new);
     Membership membership = membershipRepository.findById(memberId).get(); // null 검사 생략
 
     WorkoutLog workoutLog = WorkoutLog.builder()
@@ -110,7 +110,7 @@ public class TrainerWorkoutLogService {
     Boolean exists = trainerMemberMatchingRepository.existsByMemberIdAndTrainerId(memberId,
         trainerId);
     if (!exists) {
-      throw new AuthenticationException("본인 담당 회원이 아닙니다.");
+      throw new AuthenticationException();
     }
   }
 }

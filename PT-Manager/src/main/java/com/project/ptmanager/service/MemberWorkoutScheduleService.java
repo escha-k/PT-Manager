@@ -5,8 +5,8 @@ import static com.project.ptmanager.utils.DateUtils.startOfMonth;
 
 import com.project.ptmanager.domain.workout.WorkoutSchedule;
 import com.project.ptmanager.dto.workout.WorkoutScheduleDto;
-import com.project.ptmanager.exception.AuthenticationException;
-import com.project.ptmanager.exception.WorkoutScheduleNotFoundException;
+import com.project.ptmanager.exception.impl.AuthenticationException;
+import com.project.ptmanager.exception.impl.WorkoutScheduleNotFoundException;
 import com.project.ptmanager.repository.workout.WorkoutScheduleRepository;
 import java.time.LocalDate;
 import java.util.List;
@@ -28,7 +28,7 @@ public class MemberWorkoutScheduleService {
         memberId, start, end);
 
     if (list.isEmpty()) {
-      throw new WorkoutScheduleNotFoundException("등록된 스케줄 정보가 없습니다.");
+      throw new WorkoutScheduleNotFoundException();
     }
 
     return list.stream().map(WorkoutScheduleDto::fromEntity).toList();
@@ -37,10 +37,10 @@ public class MemberWorkoutScheduleService {
   public WorkoutScheduleDto getSchedule(Long memberId, Long scheduleId) {
 
     WorkoutSchedule workoutSchedule = workoutScheduleRepository.findById(scheduleId)
-        .orElseThrow(() -> new WorkoutScheduleNotFoundException("등록된 스케줄 정보가 없습니다."));
+        .orElseThrow(WorkoutScheduleNotFoundException::new);
 
     if (!Objects.equals(memberId, workoutSchedule.getMember().getId())) {
-      throw new AuthenticationException("본인의 운동 스케줄이 아닙니다.");
+      throw new AuthenticationException();
     }
 
     return WorkoutScheduleDto.fromEntity(workoutSchedule);

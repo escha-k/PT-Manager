@@ -9,9 +9,9 @@ import com.project.ptmanager.domain.workout.WorkoutLog;
 import com.project.ptmanager.domain.workout.model.Workout;
 import com.project.ptmanager.dto.workout.WorkoutLogDto;
 import com.project.ptmanager.enums.WorkoutType;
-import com.project.ptmanager.exception.AuthenticationException;
-import com.project.ptmanager.exception.MemberNotFoundException;
-import com.project.ptmanager.exception.WorkoutLogNotFoundException;
+import com.project.ptmanager.exception.impl.AuthenticationException;
+import com.project.ptmanager.exception.impl.MemberNotFoundException;
+import com.project.ptmanager.exception.impl.WorkoutLogNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;
 import com.project.ptmanager.repository.member.TrainerMemberMatchingRepository;
 import com.project.ptmanager.repository.workout.WorkoutLogRepository;
@@ -38,7 +38,7 @@ public class MemberWorkoutLogService {
         end);
 
     if (list.isEmpty()) {
-      throw new WorkoutLogNotFoundException("등록된 운동 일지 정보가 없습니다.");
+      throw new WorkoutLogNotFoundException();
     }
 
     return list.stream().map(WorkoutLogDto::fromEntity).toList();
@@ -46,10 +46,10 @@ public class MemberWorkoutLogService {
 
   public WorkoutLogDto getWorkoutLog(Long memberId, Long logId) {
     WorkoutLog workoutLog = workoutLogRepository.findById(logId)
-        .orElseThrow(() -> new WorkoutLogNotFoundException("등록된 운동 일지 정보가 없습니다."));
+        .orElseThrow(WorkoutLogNotFoundException::new);
 
     if (!Objects.equals(memberId, workoutLog.getMember().getId())) {
-      throw new AuthenticationException("본인의 운동 일지가 아닙니다.");
+      throw new AuthenticationException();
     }
 
     return WorkoutLogDto.fromEntity(workoutLog);
@@ -58,7 +58,7 @@ public class MemberWorkoutLogService {
   public Long createWorkoutLog(LocalDate date, List<Workout> exerciseList, Long memberId) {
 
     Member member = memberRepository.findById(memberId)
-        .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
+        .orElseThrow(MemberNotFoundException::new);
 
     Member trainer = null;
     Optional<TrainerMemberMatching> matching = trainerMemberMatchingRepository.findByMemberId(

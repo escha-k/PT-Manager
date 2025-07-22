@@ -8,9 +8,9 @@ import com.project.ptmanager.domain.workout.WorkoutSchedule;
 import com.project.ptmanager.dto.workout.WorkoutScheduleCreateRequestDto;
 import com.project.ptmanager.dto.workout.WorkoutScheduleDto;
 import com.project.ptmanager.enums.WorkoutType;
-import com.project.ptmanager.exception.AuthenticationException;
-import com.project.ptmanager.exception.MemberNotFoundException;
-import com.project.ptmanager.exception.WorkoutScheduleNotFoundException;
+import com.project.ptmanager.exception.impl.AuthenticationException;
+import com.project.ptmanager.exception.impl.MemberNotFoundException;
+import com.project.ptmanager.exception.impl.WorkoutScheduleNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;
 import com.project.ptmanager.repository.member.TrainerMemberMatchingRepository;
 import com.project.ptmanager.repository.workout.WorkoutScheduleRepository;
@@ -40,7 +40,7 @@ public class TrainerWorkoutScheduleService {
         memberId, start, end);
 
     if (list.isEmpty()) {
-      throw new WorkoutScheduleNotFoundException("해당 회원에게 등록된 스케줄이 없습니다.");
+      throw new WorkoutScheduleNotFoundException();
     }
 
     return list.stream().map(WorkoutScheduleDto::fromEntity).toList();
@@ -51,10 +51,10 @@ public class TrainerWorkoutScheduleService {
     validateMatching(trainerId, memberId);
 
     WorkoutSchedule workoutSchedule = workoutScheduleRepository.findById(scheduleId)
-        .orElseThrow(() -> new WorkoutScheduleNotFoundException("등록된 스케줄 정보가 없습니다."));
+        .orElseThrow(WorkoutScheduleNotFoundException::new);
 
     if (!Objects.equals(memberId, workoutSchedule.getMember().getId())) {
-      throw new AuthenticationException("선택한 회원의 운동 스케줄이 아닙니다.");
+      throw new AuthenticationException();
     }
 
     return WorkoutScheduleDto.fromEntity(workoutSchedule);
@@ -66,7 +66,7 @@ public class TrainerWorkoutScheduleService {
     validateMatching(trainerId, memberId);
 
     Member member = memberRepository.findById(memberId)
-        .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
+        .orElseThrow(MemberNotFoundException::new);
     Member trainer = memberRepository.findById(trainerId).orElseThrow();
 
     WorkoutSchedule schedule = WorkoutSchedule.builder()
@@ -87,7 +87,7 @@ public class TrainerWorkoutScheduleService {
     Boolean exists = trainerMemberMatchingRepository.existsByMemberIdAndTrainerId(memberId,
         trainerId);
     if (!exists) {
-      throw new AuthenticationException("본인 담당 회원이 아닙니다.");
+      throw new AuthenticationException();
     }
   }
 }

@@ -4,9 +4,9 @@ import com.project.ptmanager.domain.workout.WorkoutFeedback;
 import com.project.ptmanager.domain.workout.WorkoutLog;
 import com.project.ptmanager.dto.workout.WorkoutFeedbackRequestDto;
 import com.project.ptmanager.dto.workout.WorkoutFeedbackResponseDto;
-import com.project.ptmanager.exception.AuthenticationException;
-import com.project.ptmanager.exception.WorkoutFeedbackNotFoundException;
-import com.project.ptmanager.exception.WorkoutLogNotFoundException;
+import com.project.ptmanager.exception.impl.AuthenticationException;
+import com.project.ptmanager.exception.impl.WorkoutFeedbackNotFoundException;
+import com.project.ptmanager.exception.impl.WorkoutLogNotFoundException;
 import com.project.ptmanager.repository.member.TrainerMemberMatchingRepository;
 import com.project.ptmanager.repository.workout.WorkoutFeedbackRepository;
 import com.project.ptmanager.repository.workout.WorkoutLogRepository;
@@ -29,14 +29,14 @@ public class TrainerWorkoutFeedbackService {
     validateMatching(trainerId, memberId);
 
     WorkoutLog workoutLog = workoutLogRepository.findById(logId)
-        .orElseThrow(() -> new WorkoutLogNotFoundException("등록된 일지 정보가 없습니다."));
+        .orElseThrow(WorkoutLogNotFoundException::new);
 
     validateMemberLog(memberId, workoutLog);
 
     List<WorkoutFeedback> list = workoutFeedbackRepository.findByLogId(logId);
 
     if (list.isEmpty()) {
-      throw new WorkoutFeedbackNotFoundException("등록된 피드백이 없습니다.");
+      throw new WorkoutFeedbackNotFoundException();
     }
 
     return list.stream().map(WorkoutFeedbackResponseDto::fromEntity).toList();
@@ -48,7 +48,7 @@ public class TrainerWorkoutFeedbackService {
     validateMatching(trainerId, memberId);
 
     WorkoutLog workoutLog = workoutLogRepository.findById(logId)
-        .orElseThrow(() -> new WorkoutLogNotFoundException("등록된 일지 정보가 없습니다."));
+        .orElseThrow(WorkoutLogNotFoundException::new);
 
     validateMemberLog(memberId, workoutLog);
 
@@ -64,13 +64,13 @@ public class TrainerWorkoutFeedbackService {
 
   private void validateMatching(Long trainerId, Long memberId) {
     if (!trainerMemberMatchingRepository.existsByMemberIdAndTrainerId(memberId, trainerId)) {
-      throw new AuthenticationException("본인 담당 회원이 아닙니다.");
+      throw new AuthenticationException();
     }
   }
 
   private static void validateMemberLog(Long memberId, WorkoutLog workoutLog) {
     if (!Objects.equals(memberId, workoutLog.getMember().getId())) {
-      throw new AuthenticationException("회원과 일지 정보가 일치하지 않습니다.");
+      throw new AuthenticationException();
     }
   }
 }

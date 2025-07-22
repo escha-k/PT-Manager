@@ -4,7 +4,7 @@ import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.statistics.Statistics;
 import com.project.ptmanager.domain.workout.WorkoutLog;
 import com.project.ptmanager.enums.StatisticsType;
-import com.project.ptmanager.exception.MemberNotFoundException;
+import com.project.ptmanager.exception.impl.MemberNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;
 import com.project.ptmanager.repository.statistics.StatisticsRepository;
 import com.project.ptmanager.repository.workout.WorkoutLogRepository;
@@ -27,7 +27,7 @@ public class StatisticsGeneratorService {
   public void generateWeeklyStatistics(Long memberId, LocalDate weekStart) {
 
     Member member = memberRepository.findById(memberId)
-        .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
+        .orElseThrow(MemberNotFoundException::new);
     LocalDate weekEnd = weekStart.plusDays(6);
 
     Statistics statistics = generateStatistics(member, weekStart, weekEnd, StatisticsType.WEEKLY);
@@ -40,7 +40,7 @@ public class StatisticsGeneratorService {
   public void generateMonthlyStatistics(Long memberId, LocalDate monthStart) {
 
     Member member = memberRepository.findById(memberId)
-        .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
+        .orElseThrow(MemberNotFoundException::new);
     LocalDate monthEnd = monthStart.with(TemporalAdjusters.lastDayOfMonth());
 
     Statistics statistics = generateStatistics(member, monthStart, monthEnd,

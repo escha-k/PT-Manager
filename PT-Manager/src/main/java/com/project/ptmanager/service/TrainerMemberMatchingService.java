@@ -4,8 +4,8 @@ import com.project.ptmanager.domain.member.Member;
 import com.project.ptmanager.domain.member.TrainerMemberMatching;
 import com.project.ptmanager.dto.member.MatchingResponseDto;
 import com.project.ptmanager.dto.member.TrainerMemberMatchingDto;
-import com.project.ptmanager.exception.MatchingNotFoundException;
-import com.project.ptmanager.exception.MemberNotFoundException;
+import com.project.ptmanager.exception.impl.MatchingNotFoundException;
+import com.project.ptmanager.exception.impl.MemberNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;
 import com.project.ptmanager.repository.member.TrainerMemberMatchingRepository;
 import java.util.List;
@@ -22,7 +22,7 @@ public class TrainerMemberMatchingService {
   public MatchingResponseDto getByMemberId(Long memberId) {
 
     TrainerMemberMatching matching = trainerMemberMatchingRepository.findByMemberId(memberId)
-        .orElseThrow(() -> new MatchingNotFoundException("연결된 트레이너가 존재하지 않습니다."));
+        .orElseThrow(MatchingNotFoundException::new);
 
     Member trainer = matching.getTrainer();
 
@@ -38,7 +38,7 @@ public class TrainerMemberMatchingService {
         trainerId);
 
     if (matchingList.isEmpty()) {
-      throw new MatchingNotFoundException("연결된 회원이 존재하지 않습니다.");
+      throw new MatchingNotFoundException();
     }
 
     return matchingList.stream().map(e -> {
@@ -52,10 +52,8 @@ public class TrainerMemberMatchingService {
     Long memberId = trainerMemberMatchingDto.getMemberId();
     Long trainerId = trainerMemberMatchingDto.getTrainerId();
 
-    Member member = memberRepository.findById(memberId)
-        .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
-    Member trainer = memberRepository.findById(trainerId)
-        .orElseThrow(() -> new MemberNotFoundException("트레이너 정보를 찾을 수 없습니다."));
+    Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+    Member trainer = memberRepository.findById(trainerId).orElseThrow(MemberNotFoundException::new);
 
     TrainerMemberMatching matching = TrainerMemberMatching.builder()
         .member(member)

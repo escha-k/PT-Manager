@@ -7,10 +7,10 @@ import com.project.ptmanager.dto.auth.LoginRequestDto;
 import com.project.ptmanager.dto.auth.RegisterRequestDto;
 import com.project.ptmanager.dto.auth.RegisterResponseDto;
 import com.project.ptmanager.enums.MemberRole;
-import com.project.ptmanager.exception.AuthenticationException;
-import com.project.ptmanager.exception.MemberNotFoundException;
-import com.project.ptmanager.exception.PhoneNumberDuplicatedException;
-import com.project.ptmanager.exception.UsernameDuplicatedException;
+import com.project.ptmanager.exception.impl.AuthenticationException;
+import com.project.ptmanager.exception.impl.MemberNotFoundException;
+import com.project.ptmanager.exception.impl.PhoneNumberDuplicatedException;
+import com.project.ptmanager.exception.impl.UsernameDuplicatedException;
 import com.project.ptmanager.repository.member.BranchRepository;
 import com.project.ptmanager.repository.member.MemberRepository;
 import com.project.ptmanager.repository.member.MembershipRepository;
@@ -33,12 +33,12 @@ public class MemberService {
 
     String username = request.getUsername();
     if (memberRepository.existsByUsername(username)) {
-      throw new UsernameDuplicatedException("중복된 ID 입니다.");
+      throw new UsernameDuplicatedException();
     }
 
     String phoneNumber = request.getPhoneNumber();
     if (memberRepository.existsByPhoneNumber(phoneNumber)) {
-      throw new PhoneNumberDuplicatedException("이미 가입된 전화번호입니다.");
+      throw new PhoneNumberDuplicatedException();
     }
 
     String encodedPassword = passwordEncoder.encode(request.getPassword());
@@ -68,12 +68,12 @@ public class MemberService {
     return RegisterResponseDto.fromEntity(saved);
   }
 
-  public Member loginAuthenticate(LoginRequestDto request) {
+  public Member loginAuthenticate(LoginRequestDto request) throws AuthenticationException {
     Member member = memberRepository.findByUsername(request.getUsername())
-        .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
+        .orElseThrow(MemberNotFoundException::new);
 
     if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-      throw new AuthenticationException("비밀번호가 일치하지 않습니다.");
+      throw new AuthenticationException();
     }
 
     return member;

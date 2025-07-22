@@ -5,7 +5,7 @@ import com.project.ptmanager.domain.member.Membership;
 import com.project.ptmanager.domain.member.PtHistory;
 import com.project.ptmanager.dto.member.MembershipDurationDto;
 import com.project.ptmanager.enums.PtChangeType;
-import com.project.ptmanager.exception.MemberNotFoundException;
+import com.project.ptmanager.exception.impl.MemberNotFoundException;
 import com.project.ptmanager.repository.member.MemberRepository;
 import com.project.ptmanager.repository.member.MembershipRepository;
 import com.project.ptmanager.repository.member.PtHistoryRepository;
@@ -25,7 +25,7 @@ public class ManagerMembershipService {
   public void setMembershipDuration(Long memberId, MembershipDurationDto request) {
 
     Membership membership = membershipRepository.findById(memberId)
-        .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
+        .orElseThrow(MemberNotFoundException::new);
 
     membership.setStartedAt(request.getStartDate());
     membership.setExpiredAt(request.getEndDate());
@@ -37,10 +37,10 @@ public class ManagerMembershipService {
   public void addPtRemaining(Long memberId, int amount) {
 
     Member member = memberRepository.findById(memberId)
-        .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
+        .orElseThrow(MemberNotFoundException::new);
 
     Membership membership = membershipRepository.findById(memberId)
-        .orElseThrow(() -> new MemberNotFoundException("회원 정보를 찾을 수 없습니다."));
+        .orElseThrow(MemberNotFoundException::new);
 
     int currentRemaining = membership.getPtRemaining();
     membership.setPtRemaining(currentRemaining + amount);

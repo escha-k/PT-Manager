@@ -4,7 +4,7 @@ import com.project.ptmanager.domain.member.Membership;
 import com.project.ptmanager.domain.member.PtHistory;
 import com.project.ptmanager.dto.member.MembershipDto;
 import com.project.ptmanager.dto.member.PtHistoryDto;
-import com.project.ptmanager.exception.PtHistoryNotFoundException;
+import com.project.ptmanager.exception.impl.PtHistoryNotFoundException;
 import com.project.ptmanager.repository.member.MembershipRepository;
 import com.project.ptmanager.repository.member.PtHistoryRepository;
 import java.util.List;
@@ -29,7 +29,7 @@ public class MemberMembershipService {
     List<PtHistory> list = ptHistoryRepository.findAllByMemberId(memberId);
 
     if (list.isEmpty()) {
-      throw new PtHistoryNotFoundException("등록된 PT 기록이 없습니다.");
+      throw new PtHistoryNotFoundException();
     }
 
     return list.stream().map(PtHistoryDto::fromEntity).toList();
