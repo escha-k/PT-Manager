@@ -1,4 +1,4 @@
-package com.project.ptmanager.controller.matching;
+package com.project.ptmanager.controller.manager;
 
 import com.project.ptmanager.dto.TrainerMemberMatchingDto;
 import com.project.ptmanager.service.TrainerMemberMatchingService;
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasRole('MANAGER')")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/manager")
+@RequestMapping("/manager/matching")
 public class ManagerMatchingController {
 
   private final TrainerMemberMatchingService trainerMemberMatchingService;
 
-  @PostMapping("/matching")
+  @PostMapping("")
   public ResponseEntity<Long> createMatching(
       @RequestBody TrainerMemberMatchingDto trainerMemberMatchingDto
   ) {

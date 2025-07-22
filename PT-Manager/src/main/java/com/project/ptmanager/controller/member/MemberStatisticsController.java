@@ -1,4 +1,4 @@
-package com.project.ptmanager.controller;
+package com.project.ptmanager.controller.member;
 
 import com.project.ptmanager.dto.StatisticsDto;
 import com.project.ptmanager.security.CustomUserDetails;
@@ -25,8 +25,8 @@ public class MemberStatisticsController {
 
   @GetMapping("/weekly")
   public ResponseEntity<StatisticsDto> getWeeklyStatistics(
-      @AuthenticationPrincipal CustomUserDetails userDetails,
-      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate weekStart
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate weekStart,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 
     Long memberId = userDetails.getId();
@@ -38,8 +38,8 @@ public class MemberStatisticsController {
 
   @GetMapping("/monthly")
   public ResponseEntity<StatisticsDto> getMonthlyStatistics(
-      @AuthenticationPrincipal CustomUserDetails userDetails,
-      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate monthStart
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate monthStart,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 
     Long memberId = userDetails.getId();
@@ -51,9 +51,9 @@ public class MemberStatisticsController {
 
   @GetMapping("/weekly/range")
   public ResponseEntity<List<StatisticsDto>> getWeeklyStatisticsInRange(
-      @AuthenticationPrincipal CustomUserDetails userDetails,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
-      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 
     Long memberId = userDetails.getId();
@@ -66,9 +66,9 @@ public class MemberStatisticsController {
 
   @GetMapping("/monthly/range")
   public ResponseEntity<List<StatisticsDto>> getMonthlyStatisticsInRange(
-      @AuthenticationPrincipal CustomUserDetails userDetails,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
-      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
 
     Long memberId = userDetails.getId();

@@ -1,4 +1,4 @@
-package com.project.ptmanager.controller.workout;
+package com.project.ptmanager.controller.trainer;
 
 import com.project.ptmanager.dto.WorkoutFeedbackRequestDto;
 import com.project.ptmanager.dto.WorkoutFeedbackResponseDto;

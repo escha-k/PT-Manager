@@ -1,4 +1,4 @@
-package com.project.ptmanager.controller.workout;
+package com.project.ptmanager.controller.member;
 
 import com.project.ptmanager.domain.workout.model.Workout;
 import com.project.ptmanager.dto.WorkoutFeedbackResponseDto;

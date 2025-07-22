@@ -1,4 +1,4 @@
-package com.project.ptmanager.controller.membership;
+package com.project.ptmanager.controller.manager;
 
 import com.project.ptmanager.dto.MembershipDurationDto;
 import com.project.ptmanager.service.ManagerMembershipService;

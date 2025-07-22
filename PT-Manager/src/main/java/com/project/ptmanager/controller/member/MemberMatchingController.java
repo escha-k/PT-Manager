@@ -1,4 +1,4 @@
-package com.project.ptmanager.controller.matching;
+package com.project.ptmanager.controller.member;
 
 import com.project.ptmanager.dto.MatchingResponseDto;
 import com.project.ptmanager.security.CustomUserDetails;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasRole('MEMBER')")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping("/member/matching")
 public class MemberMatchingController {
 
   private final TrainerMemberMatchingService trainerMemberMatchingService;
 
-  @GetMapping("/matched-trainer")
+  @GetMapping("")
   public ResponseEntity<MatchingResponseDto> getMatching(
       @AuthenticationPrincipal CustomUserDetails userDetails
   ) {

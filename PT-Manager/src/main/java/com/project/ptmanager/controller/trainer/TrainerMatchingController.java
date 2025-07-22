@@ -1,4 +1,4 @@
-package com.project.ptmanager.controller.matching;
+package com.project.ptmanager.controller.trainer;
 
 import com.project.ptmanager.dto.MatchingResponseDto;
 import com.project.ptmanager.service.TrainerMemberMatchingService;
@@ -15,12 +15,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 @PreAuthorize("hasRole('TRAINER')")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/trainer")
+@RequestMapping("/trainer/matching")
 public class TrainerMatchingController {
 
   private final TrainerMemberMatchingService trainerMemberMatchingService;
 
-  @GetMapping("/matched-member")
+  @GetMapping("")
   public ResponseEntity<List<MatchingResponseDto>> getMatching(
       @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
