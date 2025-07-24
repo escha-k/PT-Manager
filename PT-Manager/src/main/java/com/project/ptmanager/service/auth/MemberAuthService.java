@@ -44,7 +44,7 @@ public class MemberAuthService {
 
     String encodedPassword = passwordEncoder.encode(request.getPassword());
     MemberRole role = MemberRole.valueOf(request.getRole());
-    Branch branch = branchRepository.findById(1L) // 더미 처리
+    Branch branch = branchRepository.findByName("더미 지점") // 더미 처리
         .orElseThrow(BranchNotFoundException::new);
 
     Member member = Member.builder()
